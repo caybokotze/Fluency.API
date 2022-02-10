@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluency.API", "Fluency.API\Fluency.API.csproj", "{4A63C9E0-A84A-4857-943B-5829ED0BCD76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluency.API.Tests", "Fluency.API.Tests\Fluency.API.Tests.csproj", "{D730462A-B768-4CA1-BF58-FCAFA343E469}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4A63C9E0-A84A-4857-943B-5829ED0BCD76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A63C9E0-A84A-4857-943B-5829ED0BCD76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A63C9E0-A84A-4857-943B-5829ED0BCD76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A63C9E0-A84A-4857-943B-5829ED0BCD76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D730462A-B768-4CA1-BF58-FCAFA343E469}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D730462A-B768-4CA1-BF58-FCAFA343E469}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D730462A-B768-4CA1-BF58-FCAFA343E469}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D730462A-B768-4CA1-BF58-FCAFA343E469}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
