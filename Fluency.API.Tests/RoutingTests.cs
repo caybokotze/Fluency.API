@@ -73,8 +73,7 @@ public class RoutingTests
                         app.UseRouting();
                         app.UseEndpoints(endpoints =>
                         {
-                            endpoints.ConfigureEndpoint(() =>
-                                    app.ApplicationServices.GetRequiredService<TestController>())
+                            endpoints.ConfigureEndpoint(app.Resolve<TestController>)
                                 .With(w => w.Post("hello/world", r => r.Route()));
                             
                             dataSources = endpoints.DataSources.ToList();
@@ -112,8 +111,7 @@ public class RoutingTests
                         app.UseRouting();
                         app.UseEndpoints(endpoints =>
                         {
-                            endpoints.ConfigureEndpoint(() =>
-                                    app.ApplicationServices.GetRequiredService<TestController>())
+                            endpoints.ConfigureEndpoint(app.Resolve<TestController>)
                                 .With(w => w.Put("hello/world", r => r.Route()));
                             
                             dataSources = endpoints.DataSources.ToList();
@@ -151,8 +149,7 @@ public class RoutingTests
                         app.UseRouting();
                         app.UseEndpoints(endpoints =>
                         {
-                            endpoints.ConfigureEndpoint(() =>
-                                    app.ApplicationServices.GetRequiredService<TestController>())
+                            endpoints.ConfigureEndpoint(app.Resolve<TestController>)
                                 .With(w => w.Delete("hello/world", r => r.Route()));
                             
                             dataSources = endpoints.DataSources.ToList();
@@ -194,8 +191,7 @@ public class RoutingTests
                         app.UseRouting();
                         app.UseEndpoints(endpoints =>
                         {
-                            endpoints.ConfigureEndpoint(() =>
-                                    app.ApplicationServices.GetRequiredService<TestController>())
+                            endpoints.ConfigureEndpoint(app.Resolve<TestController>)
                                 .With(w => w.Delete("hello/world", r => r.Route()))
                                 .With(w => w.Get("hello/world", r => r.Route()))
                                 .With(w => w.Post("hello/world", r => r.Route()))
