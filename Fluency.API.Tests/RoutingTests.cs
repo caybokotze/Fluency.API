@@ -18,7 +18,7 @@ namespace Fluency.API.Tests;
 public class RoutingTests
 {
     [TestFixture]
-    public class WhenDefiningGetRoute
+    public class WhenDefiningSingleRoutes
     {
         [Test]
         public async Task GetRouteShouldExistInApplicationRoutePipeline()
@@ -35,10 +35,9 @@ public class RoutingTests
                         app.UseRouting();
                         app.UseEndpoints(endpoints =>
                         {
-                            endpoints.ConfigureEndpoint(() =>
-                                    app.ApplicationServices.GetRequiredService<TestController>())
+                            endpoints.ConfigureEndpoint(app.Resolve<TestController>)
                                 .With(w => w.Get("hello/world", r => r.Route()));
-                            
+
                             dataSources = endpoints.DataSources.ToList();
                         });
                         app.Run(handle => handle.Response.StartAsync());
@@ -174,6 +173,58 @@ public class RoutingTests
             // assert
             Expect(dataSources[0].Endpoints.Select(s => s.DisplayName))
                 .To.Contain("HTTP: DELETE hello/world");
+        }
+    }
+
+    [TestFixture]
+    public class WhenDefiningMultipleRoutes
+    {
+        [Test]
+        public async Task ShouldMapMultipleRoutes()
+        {
+            // arrange
+            var dataSources = new List<EndpointDataSource>();
+            
+            var hostBuilder = new HostBuilder()
+                .ConfigureWebHost(webHost =>
+                {
+                    webHost.UseTestServer();
+                    webHost.Configure(app =>
+                    {
+                        app.UseRouting();
+                        app.UseEndpoints(endpoints =>
+                        {
+                            endpoints.ConfigureEndpoint(() =>
+                                    app.ApplicationServices.GetRequiredService<TestController>())
+                                .With(w => w.Delete("hello/world", r => r.Route()))
+                                .With(w => w.Get("hello/world", r => r.Route()))
+                                .With(w => w.Post("hello/world", r => r.Route()))
+                                .With(w => w.Put("hello/world", r => r.Route()));
+                            
+                            dataSources = endpoints.DataSources.ToList();
+                        });
+                        app.Run(handle => handle.Response.StartAsync());
+                        app.Build();
+                    });
+                    webHost.ConfigureServices(config =>
+                    {
+                        config.AddRouting();
+                        config.AddTransient<TestController, TestController>();
+                        config.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+                    });
+                });
+            
+            // act
+            await hostBuilder.StartAsync();
+            // assert
+            Expect(dataSources[0].Endpoints.Select(s => s.DisplayName))
+                .To.Contain("HTTP: DELETE hello/world");
+            Expect(dataSources[0].Endpoints.Select(s => s.DisplayName))
+                .To.Contain("HTTP: POST hello/world");
+            Expect(dataSources[0].Endpoints.Select(s => s.DisplayName))
+                .To.Contain("HTTP: PUT hello/world");
+            Expect(dataSources[0].Endpoints.Select(s => s.DisplayName))
+                .To.Contain("HTTP: GET hello/world");
         }
     }
 }
